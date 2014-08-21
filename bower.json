@@ -21,10 +21,6 @@
 		}
 	},
 	"main": [
-		"dist/elegant-header.css"
-	],
-
-	"dependencies": {
-		"normalize-css": "latest"
-	}
+		"dist/elegant-header.js"
+	]
 }
