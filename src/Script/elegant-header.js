@@ -1,23 +1,27 @@
 ;document.addEventListener("DOMContentLoaded", function() { "use strict";
 
-function headerScroll(header) {
+var
+	timeout,
+$;
+
+function headerScroll(header, forceHide) {
 	var
 		diff = header.elegantScrollY - window.scrollY,
 		top = parseInt(header.style.top, 10) + diff,
 	$;
 
-	if(top < -header.elegantHeight) {
-		top = -header.elegantHeight;
-	}
-	if(top > 0) {
-		top = 0;
-	}
+	top = Math.max(-header.elegantHeight, Math.min(top, 0));
+
 	if(diff > 0) {
 		header.style.opacity = 1;
 	}
 
 	if(window.scrollY > header.elegantHeight) {
 		header.style.boxShadow = "0 0 16px rgba(0, 0, 0, 0.2)";
+
+		if(forceHide) {
+			top = -header.elegantHeight;
+		}
 
 		if(diff < 0) {
 			header.style.opacity = 1 +
@@ -29,9 +33,34 @@ function headerScroll(header) {
 		header.style.boxShadow = "none";
 	}
 
-	header.style.top = top + "px";
+	if(timeout) {
+		clearTimeout(timeout);
+	}
+	if(top != 0) {
+		timeout = setTimeout(function() {
+			hide(header);
+		}, 1000);
+	}
 
+	header.style.top = top + "px";
 	header.elegantScrollY = window.scrollY;
+}
+
+function hide(header) {
+	header.style.webkitTransition
+		= header.style.transition
+		= "margin-top 0.25s ease-in-out, opacity 0.25s";
+	header.style.marginTop = (-header.elegantHeight) + "px";
+	header.style.opacity = "0.0";
+
+	setTimeout(function() {
+		header.style.webkitTransition
+			= header.style.transition
+			= "none";
+		header.style.top = header.style.marginTop;
+		header.style.marginTop = 0;
+		header.style.opacity = 1;
+	}, 250);
 }
 
 [].forEach.call(document.querySelectorAll("header.elegant"), function(header) {
@@ -67,6 +96,7 @@ function headerScroll(header) {
 	header.style.webKitTransform = "rotateZ(0)";
 	header.style.transform = "rotateZ(0)";
 
+	headerScroll(header, true);
 	window.addEventListener("scroll", function(e) {
 		headerScroll(header);
 	});
