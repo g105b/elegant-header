@@ -16,8 +16,8 @@
 	],
 	"install": {
 		"path": {
-			"css": "src/Style",
-			"js": "src/Script"
+			"css": "src/Style/Lib",
+			"js": "src/Script/Lib"
 		}
 	},
 	"main": [
