@@ -3,7 +3,7 @@ elegant-header
 
 My take on the scroll-up-to-reveal website header
 
-482 bytes gzipped (1019 bytes uncompressed)
+507 bytes gzipped (1.15KB uncompressed)
 
 Features
 --------
